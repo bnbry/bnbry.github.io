@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./memphis.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body, main {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #FEFEFE;
+    }
+
+    main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <canvas id="memphis"></canvas>
+  </main>
+</body>
+<script>
+  const canvas = document.getElementById('memphis')
+  let app = new MemphisApp(
+    canvas,
+    window.devicePixelRatio,
+    canvas.offsetWidth,
+    canvas.offsetHeight,
+  )
+
+  app.generate()
+
+  (function() {
+    window.addEventListener("resize", resizeThrottler, false);
+
+    var resizeTimeout;
+    function resizeThrottler() {
+      if ( !resizeTimeout ) {
+        resizeTimeout = setTimeout(function() {
+          resizeTimeout = null;
+          actualResizeHandler();
+        }, 66);
+      }
+    }
+
+    function actualResizeHandler() {
+      app = new MemphisApp(
+        canvas,
+        window.devicePixelRatio,
+        canvas.offsetWidth,
+        canvas.offsetHeight,
+      )
+
+      app.generate()
+    }
+  }())
+</script>
+</html>
