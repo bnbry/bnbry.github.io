@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EGB - Counting</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Baloo 2", cursive;
+      color: #34495e;
+    }
+
+    section {
+      width: 100%;
+      max-width: 600px;
+      margin: 30px auto;
+      text-align: center;
+    }
+
+    .current-number {
+      font-size: 256px;
+      color: #2ecc71;
+      width: 100%;
+      margin: 16px 0 0;
+      line-height: 1em;
+    }
+
+    .current-number-word {
+      margin: 0 0 .16em;
+      font-size: 48px;
+      color: #2ecc71;
+      width: 100%;
+      line-height: 1em;
+    }
+
+    .message {
+      font-size: 28px;
+    }
+
+    .options {
+      list-style-type: none;
+      margin: 0 auto;
+      padding: 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .option {
+      width: 160px;
+      position: relative;
+      display: inline-block;
+      font-size: 48px;
+      color: white;
+      padding: 12px 48px;
+      border-radius: 16px;
+      margin: 16px;
+      background-color: #f39c12;
+      box-shadow: 0 16px #e67e22;
+      border: 2px solid #D97720;
+      text-decoration: none;
+      line-height: 1em;
+      top: 0;
+    }
+
+    .option:first-child {
+      background-color: #e74c3c;
+      box-shadow: 0 16px #DB4839;
+      border: 2px solid #c0392b;
+    }
+
+    .option:last-child {
+      background-color: #3498db;
+      box-shadow: 0 16px #318FCF;
+      border: 2px solid #2980b9;
+    }
+
+    .option:active {
+      top: 16px;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <section class="display">
+    <h1 class="current-number" data-display="number">0</h1>
+    <h2 class="current-number-word" data-display="word">zero</h2>
+  </section>
+  <section class="controls">
+    <h3 class="message">What number is next?</h3>
+    <ul class="options">
+      <li>
+        <a href="#" class="option" data-option="1">1</a>
+        <a href="#" class="option" data-option="9">9</a>
+        <a href="#" class="option" data-option="4">4</a>
+      </li>
+    </ul>
+  </section>
+</body>
+<script>
+  const data = {
+    0: "zero",
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+    10: "ten",
+    11: "eleven",
+    12: "twelve",
+    13: "thirteen",
+    14: "fourteen",
+    15: "fifteen",
+    16: "sixteen",
+    17: "seventeen",
+    18: "eighteen",
+    19: "nineteen",
+    20: "twenty",
+    21: "twenty one",
+    22: "twenty two",
+    23: "twenty three",
+    24: "twenty four",
+    25: "twenty five",
+    26: "twenty six",
+    27: "twenty seven",
+    28: "twenty eight",
+    29: "twenty nine",
+    30: "thirty",
+    31: "thirty one",
+    32: "thirty two",
+    33: "thirty three",
+    34: "thirty four",
+    35: "thirty five",
+    36: "thirty six",
+    37: "thirty seven",
+    38: "thirty eight",
+    39: "thirty nine",
+    40: "forty",
+    41: "forty one",
+    42: "forty two",
+    43: "forty three",
+    44: "forty four",
+    45: "forty five",
+    46: "forty six",
+    47: "forty seven",
+    48: "forty eight",
+    49: "forty nine",
+    50: "fifty",
+  }
+  const MAX_ADJACENT = 10;
+  const MIN_DISTANT = 11;
+  const MAX_DISTANT = Math.floor(data.length / 2);
+  let currentNumber = 0;
+
+  function docReady(callback) {
+    if (document.readyState !== "loading") {
+      callback();
+    } else {
+      document.addEventListener("DOMContentLoaded", callback);
+    }
+  }
+
+  function update(newNumber) {
+    if (newNumber) {
+      currentNumber = newNumber;
+    }
+
+    const displayNumber = document.querySelector("[data-display='number']");
+    const displayWord = document.querySelector("[data-display='word']");
+    const newOptions = getOptions(currentNumber);
+
+    displayNumber.textContent = currentNumber;
+    displayWord.textContent = data[currentNumber];
+
+    document.querySelectorAll(".option").forEach(option => {
+      const optionValue = newOptions.pop();
+      option.dataset.option = optionValue;
+      option.textContent = optionValue;
+    });
+  }
+
+  function onClickOption(e) {
+    const optionValue = +e.currentTarget.dataset.option;
+    if(optionValue === currentNumber + 1) {
+      handleSuccess(optionValue);
+    } else {
+      handleFailure(optionValue);
+    }
+  }
+
+  function handleSuccess(newNumber) {
+    console.log('success');
+    update(newNumber);
+  }
+
+  function handleFailure(wrongNumber) {
+    console.log('fail');
+    update(wrongNumber);
+  }
+
+  function setup() {
+    document.querySelectorAll(".option").forEach(option => option.addEventListener("click", onClickOption));
+    update();
+  }
+
+  function getOptions(currentNumber) {
+    const minNumber = data[0];
+    const maxNumber = data[-1];
+    const nextNumber = currentNumber + 1;
+    let wrongAdjacentNumber, wrongDistantNumber;
+
+    if (maxNumber - currentNumber > MAX_ADJACENT) {
+      wrongAdjacentNumber = randomFromRange(currentNumber, currentNumber + MAX_ADJACENT);
+    } else {
+      wrongAdjacentNumber = randomFromRange(currentNumber - MAX_ADJACENT, currentNumber);
+    }
+
+    if (currentNumber > MAX_DISTANT) {
+      wrongDistantNumber = randomFromRange(currentNumber - MAX_DISTANT, currentNumber - MIN_DISTANT);
+    } else {
+      wrongDistantNumber = randomFromRange(currentNumber + MIN_DISTANT, currentNumber + MAX_DISTANT);
+    }
+
+    return shuffle([nextNumber, wrongAdjacentNumber, wrongDistantNumber]);
+  }
+
+  function shuffle(list) {
+    return list;
+  }
+
+  function randomFromRange(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  docReady(setup());
+</script>
+</html>
