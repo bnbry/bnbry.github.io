@@ -102,7 +102,7 @@
   </section>
 </body>
 <script>
-  const data = {
+  const DATA = {
     0: "zero",
     1: "one",
     2: "two",
@@ -155,9 +155,11 @@
     49: "forty nine",
     50: "fifty",
   }
+  const MIN_ADJACENT = 3;
   const MAX_ADJACENT = 10;
   const MIN_DISTANT = 11;
-  const MAX_DISTANT = Math.floor(data.length / 2);
+  const NUMBERS = Object.keys(DATA);
+  const MAX_DISTANT = Math.floor(NUMBERS.length / 2);
   let currentNumber = 0;
 
   function docReady(callback) {
@@ -178,7 +180,7 @@
     const newOptions = getOptions(currentNumber);
 
     displayNumber.textContent = currentNumber;
-    displayWord.textContent = data[currentNumber];
+    displayWord.textContent = DATA[currentNumber];
 
     document.querySelectorAll(".option").forEach(option => {
       const optionValue = newOptions.pop();
@@ -212,17 +214,17 @@
   }
 
   function getOptions(currentNumber) {
-    const minNumber = data[0];
-    const maxNumber = data[-1];
+    const minNumber = NUMBERS[0];
+    const maxNumber = NUMBERS[NUMBERS.length - 1];
     const nextNumber = currentNumber + 1;
     let wrongAdjacentNumber, wrongDistantNumber;
 
     if (maxNumber - currentNumber > MAX_ADJACENT) {
-      wrongAdjacentNumber = randomFromRange(currentNumber, currentNumber + MAX_ADJACENT);
+      wrongAdjacentNumber = randomFromRange(currentNumber + MIN_ADJACENT, currentNumber + MAX_ADJACENT);
     } else {
-      wrongAdjacentNumber = randomFromRange(currentNumber - MAX_ADJACENT, currentNumber);
+      wrongAdjacentNumber = randomFromRange(currentNumber - MAX_ADJACENT, currentNumber - MIN_ADJACENT);
     }
-
+    console.log(currentNumber);
     if (currentNumber > MAX_DISTANT) {
       wrongDistantNumber = randomFromRange(currentNumber - MAX_DISTANT, currentNumber - MIN_DISTANT);
     } else {
@@ -233,10 +235,23 @@
   }
 
   function shuffle(list) {
+    let currentIndex = list.length;
+	  let temporaryValue, randomIndex;
+
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = list[currentIndex];
+      list[currentIndex] = list[randomIndex];
+      list[randomIndex] = temporaryValue;
+    }
+
     return list;
   }
 
   function randomFromRange(min, max) {
+    console.log(min, max);
     return Math.floor(Math.random() * (max - min) + min);
   }
 
