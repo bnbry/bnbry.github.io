@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./progress.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    main {
+      max-width: 600px;
+      width: 100%;
+      margin: 25px auto;
+    }
+
+    section {
+      margin: 30px;
+    }
+
+    svg {
+      stroke: rgb(15, 235, 205);
+      stroke-width: 10px;
+      height: 15px;
+    }
+
+    .simple-dashed-line {
+      stroke-dasharray: 5;
+    }
+
+    .wide-dashed-line {
+      stroke-dasharray: 25 5;
+    }
+
+    .narrow-dashed-line {
+      stroke-dasharray: 5 25;
+    }
+
+    .full-length-dashed-line {
+      stroke-dasharray: 200;
+    }
+
+    .half-length-dashed-line {
+      stroke-dasharray: 100 200;
+    }
+
+    .progress-line {
+      stroke-dasharray: 0 200;
+    }
+
+    .negative-progress-line {
+      stroke-dasharray: 200 200;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h2>Simple Line</h2>
+      <svg class="simple-line">
+        <line x1="0" y1="0" x2="200" y2="0"/>
+      </svg>
+    </section>
+
+    <section>
+      <h2>Simple Dashed Line</h2>
+      <svg class="simple-dashed-line">
+        <line x1="0" y1="0" x2="200" y2="0"/>
+      </svg>
+    </section>
+
+    <section>
+      <h2>Wide Dashes Narrow Gaps Dashed Line</h2>
+      <svg class="wide-dashed-line">
+        <line x1="0" y1="0" x2="200" y2="0"/>
+      </svg>
+    </section>
+
+    <section>
+      <h2>Narrow Dashes Wide Gaps Dashed Line</h2>
+      <svg class="narrow-dashed-line">
+        <line x1="0" y1="0" x2="200" y2="0"/>
+      </svg>
+    </section>
+
+    <section>
+      <h2>Full Length Dashed Line</h2>
+      <svg class="full-length-dashed-line">
+        <line x1="0" y1="0" x2="200" y2="0"/>
+      </svg>
+    </section>
+
+    <section>
+      <h2>Half Length Dashed Line</h2>
+      <svg class="half-length-dashed-line">
+        <line x1="0" y1="0" x2="200" y2="0"/>
+      </svg>
+    </section>
+
+    <section>
+      <h2>Progress Line</h2>
+      <svg class="progress-line">
+        <line x1="0" y1="0" x2="200" y2="0"/>
+      </svg>
+    </section>
+
+    <section>
+      <h2>Negative Progress Line</h2>
+      <svg class="negative-progress-line">
+        <line x1="0" y1="0" x2="200" y2="0"/>
+      </svg>
+    </section>
+  </main>
+</body>
+<script>
+  const progressLine = document.querySelector(".progress-line line");
+  const negativeLine = document.querySelector(".negative-progress-line line");
+  let progressLength = 0;
+
+  function tick() {
+    if (progresLength >= 200) {
+      return;
+    }
+
+    progressLength += 1;
+    progressLine.style.strokeDasharray = `${progressLength}px 200px`;
+    negativeLine.style.strokeDasharray = `${200 - progressLength}px 200px`;
+
+    window.setTimeout(() => tick(), 500)
+  }
+
+  window.setTimeout(() => tick(), 500)
+</script>
+</html>
