@@ -1,35 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  <head>
+    <title>bnbry.com | Matthew Banbury</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
-    html, body, main {
-      height: 100%;
-    }
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 25px;
+      }
 
-    body {
-      background-color: #EDEDFA;
-      margin: 0;
-    }
+      h1 {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #000;
+      }
 
-    main {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      main {
+        display: grid;
+        grid-template-columns: [icon] 28px [links] auto [modified] auto [status] auto [description] auto;
+        max-width: 800px;
+      }
 
-    img {
-      max-width: 100%;
-      max-height: 100%;
-    }
-  </style>
-</head>
-<body>
-  <main>
-    <img src="assets/spaceghoul.svg" />
-  </main>
-</body>
+      .heading {
+        font-weight: bold;
+        text-align: left;
+      }
+
+      main div {
+        padding: 5px 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h1>Index of bnbry.com/</h1>
+      <main>
+        <div class="heading"></div>
+        <div class="heading">Name</div>
+        <div class="heading">Last Modified</div>
+        <div class="heading">Status</div>
+        <div class="heading">Description</div>
+
+        <div><img src="assets/interactive.png" /></div>
+        <div><a href="scramble">scramble</a></div>
+        <div>2022-07-13</div>
+        <div><span class="status">in progress</span></div>
+        <div>A toy homophonic substitution cypher.</div>
+
+        <div><img src="assets/code.png" /></div>
+        <div><a href="https://github.com/bnbry/json_deep_parse">json_deep_parse</a></div>
+        <div>2022-07-13</div>
+        <div><span class="status active">active</span></div>
+        <div>A ruby gem to deeply parse heavily escaped and nested JSON.</div>
+
+        <div><img src="assets/image.png" /></div>
+        <div><a href="assets/spaceghoul.svg">spaceghoul.svg</a></div>
+        <div>2022-07-13</div>
+        <div><span class="status active">active</span></div>
+        <div>A cute elder god.</div>
+      </main>
+    </section>
+  </body>
 </html>
