@@ -8,28 +8,59 @@
 
     html, body, main {
       height: 100%;
+      width: 100%;
     }
 
     body {
-      background-color: #EDEDFA;
+      background-color: #F3F3FF;
       margin: 0;
     }
 
     main {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      column-gap: 10px;
+      row-gap: 10px;
+      border: 10px solid #0B0040
     }
 
-    img {
-      max-width: 100%;
-      max-height: 100%;
+    .cell1 {
+      background-color: #FF0080;
+      display: grid;
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+    }
+
+    .cell2 {
+      background-color: #0B0040;
+      display: grid;
+      grid-column: 3 / 4;
+      grid-row: 2 / 3;
+    }
+
+    .cell3 {
+      background-color: #FF0080;
+      display: grid;
+      grid-column: 4 / 5;
+      grid-row: 2 / 3;
+    }
+
+    .cell4 {
+      background-color: #0B0040;
+      display: grid;
+      grid-column: 5 / 7;
+      grid-row: 2 / 3;
     }
   </style>
 </head>
 <body>
   <main>
-    <img src="assets/spaceghoul.svg" />
+      <div class="cell1"></div>
+      <div class="cell2"></div>
+      <div class="cell3"></div>
+      <div class="cell4"></div>
+      <div class="cell5"></div>
   </main>
 </body>
 </html>
